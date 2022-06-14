@@ -7,8 +7,8 @@ const keySeparatorRe = new RegExp(/(?=[\s.:[\]><+,()])/g)
 
 export const extractClassNameKeys = (
   obj: CSSJSObj,
-  toParseCase: ((target: string) => string) | undefined
-  any: false
+  toParseCase: ((target: string) => string) | undefined,
+  any: boolean = false
 ): Map<string, boolean> => {
   return Object.entries(obj).reduce<Map<string, boolean>>(
     (curr, [key, value]) => {
