@@ -8,14 +8,14 @@ const keySeparatorRe = new RegExp(/(?=[\s.:[\]><+,()])/g)
 export const extractClassNameKeys = (
   obj: CSSJSObj,
   toParseCase: ((target: string) => string) | undefined,
-  any: boolean = false
+  any = false
 ): Map<string, boolean> => {
   return Object.entries(obj).reduce<Map<string, boolean>>(
     (curr, [key, value]) => {
       if (importRe.test(key)) return curr
       const splitKeys = key.split(keySeparatorRe)
       for (const splitKey of splitKeys) {
-        if (any||splitKey.startsWith('.')) {
+        if (any || splitKey.startsWith('.')) {
           if (toParseCase) {
             curr.set(toParseCase(splitKey.replace('.', '').trim()), true)
           } else {
@@ -28,7 +28,11 @@ export const extractClassNameKeys = (
         const valueToExtract = Array.isArray(value)
           ? collectionToObj(value)
           : value
-        const map = extractClassNameKeys(valueToExtract, toParseCase, key===':export')
+        const map = extractClassNameKeys(
+          valueToExtract,
+          toParseCase,
+          key === ':export'
+        )
         for (const key of map.keys()) {
           if (toParseCase) {
             curr.set(toParseCase(key), true)
